@@ -25,7 +25,7 @@ public class TipoUsuarioController {
         Optional<TipoUsuarioModel> tipoBuscado = tipoUsuarioRepository.findById(id);
 
         if(tipoBuscado.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse tipo de usuário não existe")
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse tipo de usuário não existe");
         }
 
         return  ResponseEntity.status(HttpStatus.OK).body(tipoBuscado.get());
@@ -45,7 +45,7 @@ public class TipoUsuarioController {
         Optional<TipoUsuarioModel> tipoBuscado = tipoUsuarioRepository.findById(id);
 
         if(tipoBuscado.isEmpty()){
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse tipo de usuário não existe")
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse tipo de usuário não existe");
         }
 
         TipoUsuarioModel tipo = tipoBuscado.get();
