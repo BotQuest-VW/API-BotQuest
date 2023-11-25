@@ -1,4 +1,4 @@
 package com.botquest.BotQuestAPI.dtos;
 
-public record SetorDto(int codSetor, String nome) {
+public record SetorDto(int cod_setor, String nome) {
 }

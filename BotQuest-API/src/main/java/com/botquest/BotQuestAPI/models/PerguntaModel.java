@@ -26,5 +26,6 @@ public class PerguntaModel implements Serializable {
     String pergunta;
 
     @ManyToOne
-
+    @JoinColumn(name ="id_setor", referencedColumnName = "id")
+    private SetorModel setorModel;
 }
