@@ -1,4 +1,6 @@
 package com.botquest.BotQuestAPI.dtos;
 
-public record TipoUsuarioDto(String nome) {
+import jakarta.validation.constraints.NotBlank;
+
+public record TipoUsuarioDto(@NotBlank String nome) {
 }

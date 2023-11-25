@@ -1,8 +1,5 @@
-package com.botquest.BotQuestAPI.controllers;
-
-import com.botquest.BotQuestAPI.dtos.TipoUsuarioDto;
+package com.botquest.BotQuestAPI.controllers;// Importa as anotações e classes necessárias
 import com.botquest.BotQuestAPI.dtos.UsuarioDto;
-import com.botquest.BotQuestAPI.models.TipoUsuarioModel;
 import com.botquest.BotQuestAPI.models.UsuarioModel;
 import com.botquest.BotQuestAPI.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -16,62 +13,90 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+// Define o controlador para a entidade UsuarioModel
 @RestController
 @RequestMapping(value = "/usuario", produces = {"application/json"})
 public class UsuarioController {
+    // Injeta a dependência do repositório UsuarioRepository
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    // Endpoint para listar todos os usuários
     @GetMapping
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.findAll());
+        // Recupera a lista de todos os usuários no banco de dados
+        List<UsuarioModel> usuarios = usuarioRepository.findAll();
+        // Retorna a lista de usuários com o código de status OK
+        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
     }
 
+    // Endpoint para buscar um usuário por ID
     @GetMapping("/{idUsuario}")
-    public ResponseEntity<Object> buscarUsuario (@PathVariable(value = "idUsuario")UUID id){
+    public ResponseEntity<Object> buscarUsuario(@PathVariable(value = "idUsuario") UUID id) {
+        // Busca o usuário no banco de dados pelo ID fornecido
         Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
-        if (usuarioBuscado.isEmpty()){
+
+        // Verifica se o usuário foi encontrado
+        if (usuarioBuscado.isEmpty()) {
+            // Retorna uma resposta com código de status NOT_FOUND se o usuário não foi encontrado
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse usuário não existe");
         }
 
+        // Retorna o usuário encontrado com código de status OK
         return ResponseEntity.status(HttpStatus.OK).body(usuarioBuscado.get());
     }
 
+    // Endpoint para cadastrar um novo usuário
     @PostMapping
-    public  ResponseEntity<Object> cadastrarUsuario (@RequestBody @Valid UsuarioDto usuarioDto){
+    public ResponseEntity<Object> cadastrarUsuario(@RequestBody @Valid UsuarioDto usuarioDto) {
+        // Cria uma nova instância de UsuarioModel
         UsuarioModel usuario = new UsuarioModel();
 
+        // Copia as propriedades do DTO para o modelo
         BeanUtils.copyProperties(usuarioDto, usuario);
 
+        // Salva o usuário no banco de dados e retorna com código de status CREATED
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
     }
 
-    @PutMapping(value="/{idUsuario}")
-    public ResponseEntity<Object> editarUsuario (@PathVariable(value = "idUsuario") UUID id, @ModelAttribute @Valid UsuarioDto usuarioDto){
+    // Endpoint para editar um usuário por ID
+    @PutMapping(value = "/{idUsuario}")
+    public ResponseEntity<Object> editarUsuario(@PathVariable(value = "idUsuario") UUID id, @ModelAttribute @Valid UsuarioDto usuarioDto) {
+        // Busca o usuário no banco de dados pelo ID fornecido
         Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
 
-        if(usuarioBuscado.isEmpty()){
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse usuário não existe");
+        // Verifica se o usuário foi encontrado
+        if (usuarioBuscado.isEmpty()) {
+            // Retorna uma resposta com código de status NOT_FOUND se o usuário não foi encontrado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Esse usuário não existe");
         }
 
+        // Obtém o usuário encontrado
         UsuarioModel usuario = usuarioBuscado.get();
 
+        // Copia as propriedades do DTO para o modelo
         BeanUtils.copyProperties(usuarioDto, usuario);
 
-        return  ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
+        // Salva o usuário atualizado no banco de dados e retorna com código de status CREATED
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
     }
 
+    // Endpoint para deletar um usuário por ID
     @DeleteMapping("/{idUsuario}")
-    public ResponseEntity<Object> deletarUsuario (@PathVariable(value = "idUsuario") UUID id){
-        Optional<UsuarioModel> usuarioBuscado = (usuarioRepository.findById(id));
+    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "idUsuario") UUID id) {
+        // Busca o usuário no banco de dados pelo ID fornecido
+        Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
 
-        if(usuarioBuscado.isEmpty()){
+        // Verifica se o usuário foi encontrado
+        if (usuarioBuscado.isEmpty()) {
+            // Retorna uma resposta com código de status NOT_FOUND se o usuário não foi encontrado
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
         }
 
+        // Remove o usuário do banco de dados e retorna com código de status NO_CONTENT
         usuarioRepository.delete(usuarioBuscado.get());
-
-        return  ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuário deletado!");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuário deletado!");
     }
-
 }
+
+

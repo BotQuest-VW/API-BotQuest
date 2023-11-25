@@ -1,4 +1,7 @@
 package com.botquest.BotQuestAPI.dtos;
 
-public record SetorDto(int cod_setor, String nome) {
+import jakarta.validation.constraints.NotBlank;
+
+public record SetorDto(@NotBlank int cod_setor,
+                       @NotBlank String nome) {
 }
