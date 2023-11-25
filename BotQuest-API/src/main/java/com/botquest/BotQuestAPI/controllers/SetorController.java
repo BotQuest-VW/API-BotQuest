@@ -2,6 +2,7 @@ package com.botquest.BotQuestAPI.controllers;
 
 import com.botquest.BotQuestAPI.dtos.SetorDto;
 import com.botquest.BotQuestAPI.models.SetorModel;
+import com.botquest.BotQuestAPI.models.TipoUsuarioModel;
 import com.botquest.BotQuestAPI.repositories.SetorRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +23,11 @@ public class SetorController {
     SetorRepository setorRepository;
 
     @GetMapping
+    public ResponseEntity<List<SetorModel>> listarSetor() {
+        return ResponseEntity.status(HttpStatus.OK).body(setorRepository.findAll());
+    }
+
+    @GetMapping("/{idSetor}")
     public ResponseEntity<Object> buscarSetor(@PathVariable(value = "idSetor")UUID id){
         Optional<SetorModel> setorBuscado = setorRepository.findById(id);
 

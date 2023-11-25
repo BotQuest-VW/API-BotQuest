@@ -1,0 +1,30 @@
+package com.botquest.BotQuestAPI.models;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.UUID;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "tb_pergunta")
+public class PerguntaModel implements Serializable {
+    @Serial
+    private static final long serialVersion = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private UUID id;
+
+    String titulo;
+
+    String pergunta;
+
+    @ManyToOne
+
+}

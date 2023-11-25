@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +22,10 @@ public class TipoUsuarioController {
     TipoUsuarioRepository tipoUsuarioRepository;
 
     @GetMapping
+    public ResponseEntity<List<TipoUsuarioModel>> listarTipos() {
+        return ResponseEntity.status(HttpStatus.OK).body(tipoUsuarioRepository.findAll());
+    }
+    @GetMapping("/{idTipoUsuario}")
     public ResponseEntity<Object> buscarTipoUsuario(@PathVariable(value="idTipoUsuario")UUID id){
         Optional<TipoUsuarioModel> tipoBuscado = tipoUsuarioRepository.findById(id);
 
