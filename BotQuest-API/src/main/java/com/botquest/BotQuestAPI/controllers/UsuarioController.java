@@ -1,14 +1,19 @@
 package com.botquest.BotQuestAPI.controllers;// Importa as anotações e classes necessárias
+
 import com.botquest.BotQuestAPI.dtos.UsuarioDto;
 import com.botquest.BotQuestAPI.models.UsuarioModel;
 import com.botquest.BotQuestAPI.repositories.UsuarioRepository;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -49,11 +54,22 @@ public class UsuarioController {
     // Endpoint para cadastrar um novo usuário
     @PostMapping
     public ResponseEntity<Object> cadastrarUsuario(@RequestBody @Valid UsuarioDto usuarioDto) {
+        if(usuarioRepository.findByEmail(usuarioDto.email()) != null) {
+            // Verifica se o email já está cadastrado e retorna uma resposta de erro
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Esse email já está cadastrado");
+        }
+
         // Cria uma nova instância de UsuarioModel
         UsuarioModel usuario = new UsuarioModel();
 
         // Copia as propriedades do DTO para o modelo
         BeanUtils.copyProperties(usuarioDto, usuario);
+
+        // Criptografa a senha
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(usuarioDto.senha());
+
+        // Define a senha criptografada no modelo de usuário
+        usuario.setSenha(senhaCriptografada);
 
         // Salva o usuário no banco de dados e retorna com código de status CREATED
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
@@ -76,6 +92,12 @@ public class UsuarioController {
 
         // Copia as propriedades do DTO para o modelo
         BeanUtils.copyProperties(usuarioDto, usuario);
+
+        // Criptografa a senha
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(usuarioDto.senha());
+
+        // Define a senha criptografada no modelo de usuário
+        usuario.setSenha(senhaCriptografada);
 
         // Salva o usuário atualizado no banco de dados e retorna com código de status CREATED
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuario));
