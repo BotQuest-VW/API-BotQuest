@@ -67,7 +67,7 @@ public class UsuarioController {
 
         // Criptografa a senha
         String senhaCriptografada = new BCryptPasswordEncoder().encode(usuarioDto.senha());
-
+        
         // Define a senha criptografada no modelo de usuário
         usuario.setSenha(senhaCriptografada);
 
