@@ -34,30 +34,31 @@ public class UsuarioModel implements Serializable, UserDetails {
     private UUID id;
 
     // Atributos da entidade
-    String nome;
-    String email;
-    String senha;
-    int vwId;
-    Date dataNascimento;
+    private String nome;
+    private String email;
+    private String senha;
+    private int vwId;
+    private Date dataNascimento;
 
-    // Relacionamento de um para um com a entidade TipoUsuarioModel
-    @OneToOne
-    @JoinColumn(name="id_tipoUsuario", referencedColumnName = "id")
-    private TipoUsuarioModel tipoUsuarioModel;
+    private TipoUsuarioModel tipo_usuario;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<ChamadoModel> chamados;
 
     // Relacionamento de um para um com a entidade SetorModel
     @OneToOne
     @JoinColumn(name="id_setor", referencedColumnName = "id")
     private SetorModel setorModel;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.tipoUsuarioModel == TipoUsuarioModel.ADMIN){
+        if(this.tipo_usuario == TipoUsuarioModel.ADMIN){
             return List.of(
                     new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority("ROLE_COMUM")
             );
-        } else if (this.tipoUsuarioModel == TipoUsuarioModel.COMUM) {
+        } else if (this.tipo_usuario == TipoUsuarioModel.COMUM) {
             return List.of(new SimpleGrantedAuthority("ROLE_COMUM"));
         }
 

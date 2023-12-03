@@ -1,6 +1,7 @@
 package com.botquest.BotQuestAPI.controllers;// Importa as anotações e classes necessárias
 
 import com.botquest.BotQuestAPI.dtos.UsuarioDto;
+import com.botquest.BotQuestAPI.models.ChamadoModel;
 import com.botquest.BotQuestAPI.models.UsuarioModel;
 import com.botquest.BotQuestAPI.repositories.UsuarioRepository;
 
@@ -49,6 +50,20 @@ public class UsuarioController {
 
         // Retorna o usuário encontrado com código de status OK
         return ResponseEntity.status(HttpStatus.OK).body(usuarioBuscado.get());
+    }
+
+    @GetMapping("/{idUsuario}/chamados")
+    public ResponseEntity<Object> listarChamadosDoUsuario(@PathVariable(value = "idUsuario") UUID id) {
+        Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
+
+        if (usuarioBuscado.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+        }
+
+        UsuarioModel usuario = usuarioBuscado.get();
+        List<ChamadoModel> chamados = usuario.getChamados();
+
+        return ResponseEntity.status(HttpStatus.OK).body(chamados);
     }
 
     // Endpoint para cadastrar um novo usuário
