@@ -31,9 +31,8 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<UsuarioModel>> listarUsuarios() {
         // Recupera a lista de todos os usuários no banco de dados
-        List<UsuarioModel> usuarios = usuarioRepository.findAll();
         // Retorna a lista de usuários com o código de status OK
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.findAll());
     }
 
     // Endpoint para buscar um usuário por ID

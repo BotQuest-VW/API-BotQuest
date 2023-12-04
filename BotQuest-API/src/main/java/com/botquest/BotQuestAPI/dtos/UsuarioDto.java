@@ -1,5 +1,6 @@
 package com.botquest.BotQuestAPI.dtos;
 
+import com.botquest.BotQuestAPI.models.TipoUsuarioModel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -10,6 +11,7 @@ public record UsuarioDto(
         @NotBlank @Email String email,
         @NotBlank String senha,
         @NotBlank int vwId,
-        @NotBlank Date dataNascimento
+        @NotBlank Date dataNascimento,
+        @NotBlank TipoUsuarioModel tipo_usuario
         ) {
 }

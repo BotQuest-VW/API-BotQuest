@@ -32,10 +32,8 @@ public class PerguntaController {
     // Endpoint para listar todas as perguntas
     @GetMapping
     public ResponseEntity<List<PerguntaModel>> listarPerguntas() {
-        // Recupera a lista de todas as perguntas no banco de dados
-        List<PerguntaModel> perguntas = perguntaRepository.findAll();
         // Retorna a lista de perguntas com o código de status OK
-        return ResponseEntity.status(HttpStatus.OK).body(perguntas);
+        return ResponseEntity.status(HttpStatus.OK).body(perguntaRepository.findAll());
     }
 
     // Endpoint para buscar uma pergunta por ID
