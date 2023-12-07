@@ -23,7 +23,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     UsuarioRepository usuarioRepository;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().equals("/usuarios") && request.getMethod().equals("GET")){
+        if (request.getRequestURI().equals("/usuario")){
             filterChain.doFilter(request, response);
             return;
         }

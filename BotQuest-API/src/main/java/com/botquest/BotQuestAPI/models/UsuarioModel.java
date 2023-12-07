@@ -38,6 +38,8 @@ public class UsuarioModel implements Serializable, UserDetails {
     private String email;
     private String senha;
     private int vwId;
+
+    @Temporal(TemporalType.DATE)
     private Date dataNascimento;
 
     private TipoUsuarioModel tipo_usuario;

@@ -3,15 +3,18 @@ package com.botquest.BotQuestAPI.dtos;
 import com.botquest.BotQuestAPI.models.TipoUsuarioModel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
+import java.util.UUID;
 
 public record UsuarioDto(
         @NotBlank String nome,
         @NotBlank @Email String email,
         @NotBlank String senha,
-        @NotBlank int vwId,
-        @NotBlank Date dataNascimento,
-        @NotBlank TipoUsuarioModel tipo_usuario
+        @NotNull int vwId,
+        @NotNull Date dataNascimento,
+        @NotNull UUID id_setor,
+        @NotNull TipoUsuarioModel tipo_usuario
         ) {
 }

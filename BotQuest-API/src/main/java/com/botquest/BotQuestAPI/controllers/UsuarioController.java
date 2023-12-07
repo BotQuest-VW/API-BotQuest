@@ -2,7 +2,9 @@ package com.botquest.BotQuestAPI.controllers;// Importa as anotações e classes
 
 import com.botquest.BotQuestAPI.dtos.UsuarioDto;
 import com.botquest.BotQuestAPI.models.ChamadoModel;
+import com.botquest.BotQuestAPI.models.SetorModel;
 import com.botquest.BotQuestAPI.models.UsuarioModel;
+import com.botquest.BotQuestAPI.repositories.SetorRepository;
 import com.botquest.BotQuestAPI.repositories.UsuarioRepository;
 
 import jakarta.validation.Valid;
@@ -26,6 +28,9 @@ public class UsuarioController {
     // Injeta a dependência do repositório UsuarioRepository
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    SetorRepository setorRepository;
 
     // Endpoint para listar todos os usuários
     @GetMapping
@@ -81,7 +86,13 @@ public class UsuarioController {
 
         // Criptografa a senha
         String senhaCriptografada = new BCryptPasswordEncoder().encode(usuarioDto.senha());
-        
+
+        Optional<SetorModel> setorUsuario = setorRepository.findById(usuarioDto.id_setor());
+
+        if (setorUsuario.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("setor não encontrado");
+
+        usuario.setSetorModel(setorUsuario.get());
+
         // Define a senha criptografada no modelo de usuário
         usuario.setSenha(senhaCriptografada);
 
