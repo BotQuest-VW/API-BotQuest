@@ -37,10 +37,10 @@ public class UsuarioModel implements Serializable, UserDetails {
     private String nome;
     private String email;
     private String senha;
-    private int vwId;
+    private int vw_id;
 
     @Temporal(TemporalType.DATE)
-    private Date dataNascimento;
+    private Date data_nascimento;
 
     private TipoUsuarioModel tipo_usuario;
 

@@ -12,8 +12,8 @@ public record UsuarioDto(
         @NotBlank String nome,
         @NotBlank @Email String email,
         @NotBlank String senha,
-        @NotNull int vwId,
-        @NotNull Date dataNascimento,
+        @NotNull int vw_id,
+        @NotNull Date data_nascimento,
         @NotNull UUID id_setor,
         @NotNull TipoUsuarioModel tipo_usuario
         ) {
